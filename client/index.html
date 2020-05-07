@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body></body>
+
+  <script src="http://127.0.0.1:5500/bot/?config="></script>
+  <script>
+    (function setMarker() {
+      var newDiv = document.createElement('div');
+      newDiv.setAttribute('id', 'marker');
+      document.body.appendChild(newDiv);
+      init_widget();
+    })();
+  </script>
+  <script>
+    !(function (e, t, a) {
+      var c = e.head || e.getElementsByTagName('head')[0],
+        n = e.createElement('script');
+      (n.async = !0),
+        (n.defer = !0),
+        (n.type = 'text/javascript'),
+        (n.src = t + '/index.js?config=' + JSON.stringify(a)),
+        console.log(n);
+
+      c.appendChild(n);
+    })(document, 'http://127.0.0.1:5500/bot', {
+      bot_key: '88ed7a4293de4407',
+      welcome_msg: true,
+      branding_key: 'xbotic',
+      server: 'https://xbotic.cbots.live',
+      e: 'p',
+    });
+  </script>
+</html>
