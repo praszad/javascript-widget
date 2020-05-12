@@ -1,18 +1,12 @@
-// function init_widget(params) {
-//   var ifrm = document.createElement('iframe');
-//   ifrm.setAttribute('id', 'ifrm'); // assign an id
-//   ifrm.setAttribute('width', '100%');
-//   ifrm.setAttribute('height', '400px');
-//   var el = document.getElementById('marker');
-//   el.parentNode.insertBefore(ifrm, el);
-//   ifrm.setAttribute('src', 'http://dev71.contus.us/services/chatbot/build/');
-// }
-// (function () {
-//   const queryString = window.location.search;
-//   const urlParams = new URLSearchParams(queryString);
-//   console.log(urlParams.get('config'));
-// })();
-
+function init_widget(params) {
+  var ifrm = document.createElement('iframe');
+  ifrm.setAttribute('id', 'ifrm'); // assign an id
+  ifrm.setAttribute('width', '100%');
+  ifrm.setAttribute('height', '400px');
+  var el = document.getElementById('marker');
+  el.parentNode.insertBefore(ifrm, el);
+  ifrm.setAttribute('src', 'http://dev71.contus.us/services/chatbot/build/');
+}
 function appDetails() {
   console.log(navigator);
   var ua = navigator.userAgent,
@@ -106,32 +100,54 @@ function callBrowserDetails() {
   };
 }
 
-var simple = 'Sample data';
+function setMarker() {
+  var newDiv = document.createElement('div');
+  newDiv.setAttribute('id', 'marker');
+  document.body.appendChild(newDiv);
+  init_widget();
+}
+(function createButton() {
+  createSocketIo(document);
+  var btn = document.createElement('button');
+  btn.setAttribute('class', 'my-iframe-btn');
+  btn.setAttribute('value', 'Click Me');
+  var btnIframe = document.createElement('button');
+  btnIframe.setAttribute('class', 'my-iframe-btnIframe');
+  btnIframe.setAttribute('value', 'Click Me');
+  var ul = document.createElement('ul');
+  ul.setAttribute('id', 'ul4545');
+  document.body.appendChild(ul);
+  btn.onclick = () => createChatOperation();
+  btnIframe.onclick = () => setMarker();
+  btn.innerHTML = 'Show Chat Bot Text Box';
+  btnIframe.innerHTML = 'Show Chat Bot Iframe';
+  document.body.appendChild(btn);
+  document.body.appendChild(btnIframe);
+})();
+function createChatOperation() {
+  var textBox = document.createElement('input');
+  textBox.setAttribute('type', 'text');
+  textBox.setAttribute('id', 'clr2323');
 
-// (function setMarker() {
-//   var newDiv = document.createElement('div');
-//   newDiv.setAttribute('id', 'marker');
-//   document.body.appendChild(newDiv);
-//   init_widget();
-// })();
-
-// var result = init_widget();
-
-// (function () {
-//   const Widget = Object.create({
-//     create(chatId) {
-//       const wdg = document.createElement('div');
-//       wdg.classList.add('chat-box');
-//       wdg.innerHTML = `<h1>Chat: ${chatId}</h1>`;
-//       // Load your chat data into UI
-//       return wdg;
-//     },
-//   });
-
-//   const myWidgetInstance = Widget.create('chat-12345');
-//   const id = `chat-${Math.floor((1 + Math.random()) * 0x10000)
-//     .toString(16)
-//     .substring(1)}`;
-//   document.write(`<div id="${id}"></div>`);
-//   document.getElementById(id).appendChild(myWidgetInstance);
-// })();
+  textBox.onkeyup = (e) => {
+    if (e.keyCode === 13) {
+      dataNode = document.getElementById('ul4545');
+      var li = document.createElement('li');
+      li.innerHTML = e.target.value;
+      dataNode.appendChild(li);
+      textBox.value = '';
+      // document.body.appendChild(e.target.value);
+    }
+  };
+  document.body.appendChild(textBox);
+}
+function createSocketIo(e = document) {
+  var c = e.head || e.getElementsByTagName('head')[0],
+    n = e.createElement('script');
+  (n.async = !0),
+    (n.defer = !0),
+    (n.type = 'text/javascript'),
+    (n.src = 'http://localhost:5000'),
+    c.appendChild(n);
+  console.log(n);
+}

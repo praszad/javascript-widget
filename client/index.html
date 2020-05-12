@@ -4,7 +4,11 @@
   <body></body>
 
   <script src="http://127.0.0.1:5500/bot/index.js"></script>
-
+  <script>
+    socket.emit('reply', () => {
+      console.log('hitted');
+    });
+  </script>
   <script>
     function getUniqueId() {
       let value = window.sessionStorage.getItem('unique-id');
@@ -34,7 +38,6 @@
 
     console.log(appDetails());
     console.log(callBrowserDetails());
-    console.log(getJSessionId());
   </script>
   <!-- <script>
     (function setMarker() {
