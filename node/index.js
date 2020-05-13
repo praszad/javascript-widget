@@ -1,19 +1,28 @@
 const express = require('express');
-const io = require('socket.io')();
 const app = express();
 const cors = require('cors');
 
 app.use(cors());
-app.listen(5000, () => {
+const server = app.listen(5000, () => {
   console.log('App listening on 5000');
 });
+
+const io = require('socket.io')(server);
+
 io.on('connection', (socket) => {
-  socket.emit('request', () => {
-    console.log('Called request');
-  }); // emit an event to the socket
+  // emit an event to the socket
   // io.emit('broadcast' /* … */); // emit an event to all connected sockets
-  socket.on('reply', () => {
-    console.log('replied here');
+  socket.on('request', (msg) => {
+    const messages = ['hi', 'hello', 'Silver', 'sha', 'random', 'strings'];
+    const data =
+      msg <= messages.length
+        ? messages[msg]
+          ? messages[msg]
+          : 'Sorry'
+        : "Sorry i couldn't understand";
+    console.log(data);
+
+    socket.emit('response', data);
   }); // listen to the event
 });
 app.get('/', (req, res) => {

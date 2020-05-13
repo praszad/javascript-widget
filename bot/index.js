@@ -106,8 +106,7 @@ function setMarker() {
   document.body.appendChild(newDiv);
   init_widget();
 }
-(function createButton() {
-  createSocketIo(document);
+function createButton() {
   var btn = document.createElement('button');
   btn.setAttribute('class', 'my-iframe-btn');
   btn.setAttribute('value', 'Click Me');
@@ -123,7 +122,7 @@ function setMarker() {
   btnIframe.innerHTML = 'Show Chat Bot Iframe';
   document.body.appendChild(btn);
   document.body.appendChild(btnIframe);
-})();
+}
 function createChatOperation() {
   var textBox = document.createElement('input');
   textBox.setAttribute('type', 'text');
@@ -131,23 +130,42 @@ function createChatOperation() {
 
   textBox.onkeyup = (e) => {
     if (e.keyCode === 13) {
-      dataNode = document.getElementById('ul4545');
-      var li = document.createElement('li');
-      li.innerHTML = e.target.value;
-      dataNode.appendChild(li);
+      const msg = e.target.value;
+      handleTextMessage('user says: ' + msg);
+      document.socket.emit('request', msg);
       textBox.value = '';
-      // document.body.appendChild(e.target.value);
     }
   };
   document.body.appendChild(textBox);
 }
-function createSocketIo(e = document) {
-  var c = e.head || e.getElementsByTagName('head')[0],
-    n = e.createElement('script');
+function handleTextMessage(msg) {
+  dataNode = document.getElementById('ul4545');
+  var li = document.createElement('li');
+  li.innerHTML = msg;
+  dataNode.appendChild(li);
+}
+function createSocketConnection() {
+  const socketUrl =
+    'https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js';
+  setScriptOnHead(socketUrl);
+  setTimeout(() => {
+    document.socket = io.connect('http://localhost:5000');
+    document.socket.on('response', (msg) => {
+      handleTextMessage('Bot says: ' + msg);
+    });
+  }, 2000);
+}
+
+function setScriptOnHead(url) {
+  var c = document.head || document.getElementsByTagName('head')[0],
+    n = document.createElement('script');
   (n.async = !0),
     (n.defer = !0),
     (n.type = 'text/javascript'),
-    (n.src = 'http://localhost:5000'),
+    (n.src = url),
     c.appendChild(n);
-  console.log(n);
 }
+(function () {
+  createButton();
+  createSocketConnection();
+})();
