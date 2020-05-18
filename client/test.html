@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://localhost:3000');
+
+      // socket.on('response', (msg) => {
+      //   console.log(msg);
+      // });
+    </script>
+
+    <script>
+      const obj = {
+        botId: '5ebed4de59ded3178e04bda4',
+        sceneId: '5ebed4f759ded3178e04bda5',
+        message_type: 'user-says',
+        type: 'text',
+        payload: {
+          'template-type': 'text',
+          text: 'This is how i word',
+          button: [],
+        },
+        parentId: null,
+        from: '',
+        to: '',
+        child: [],
+      };
+      socket.emit('create_intent', obj);
+      socket.emit('test_connection', { data: 'data' });
+
+      socket.on('create_intent_response', (msg) => console.log(msg));
+      socket.on('test_connection_result', (msg) => console.log(msg));
+    </script>
+  </head>
+  <body></body>
+</html>
